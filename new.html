@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="check(event)">
+      <input type="text" id="name" placeholder="name"/>
+      <input type="text" id="pw" placeholder="password"/>
+      <input type="text" id="file" placeholder="file" />
+      <button>signup</button>
+    </form>
+    <form onsubmit="login(event)">
+      <input type="text" id="name_l" placeholder="login_name" />
+      <input type="text" id="pw_l" placeholder="login_pw"/>
+      <button>Login</button>
+    </form>
+
+
+    <script>
+      function check(event) {
+        event.preventDefault();
+        let name_ip = document.querySelector("#name").value;
+
+        let pw_ip = document.querySelector("#pw").value;
+        let file_ip=document.querySelector("#file").value
+
+        if (name_ip && pw_ip && file_ip) {
+          let data = JSON.parse(localStorage.getItem("user")) || [];
+          let obj = { name: name_ip, pass: pw_ip ,file:file_ip};
+
+          data.push(obj);
+          localStorage.setItem("user", JSON.stringify(data));
+        }
+        document.querySelector("#name").value = "";
+
+        document.querySelector("#pw").value = "";
+
+        document.querySelector("#file").value=""
+      }
+      function login(event){
+        event.preventDefault();
+        let lname=document.querySelector("#name_l").value
+        let lpw=document.querySelector("#pw_l").value
+let ldata=JSON.parse(localStorage.getItem("user"))||[];
+
+
+
+let findvalue=ldata.find((x)=>x.name==lname && x.pass==lpw)
+
+
+if(findvalue){
+    alert(`logged sucessfully ${lname}`)
+    document.querySelector("#name_l").value=""
+document.querySelector("#pw_l").value=""
+location.href=`${findvalue.file}`
+}
+else{
+    alert("incorrect user or pw")
+}
+
+    }
+    </script>
+  </body>
+</html>
